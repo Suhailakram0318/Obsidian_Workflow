@@ -1,12 +1,20 @@
 {
   "scanned": true,
-  "reminders": {},
+  "reminders": {
+    "time.md": [
+      {
+        "title": "Test Reminder",
+        "time": "2025-09-19 15:24",
+        "rowNumber": 0
+      }
+    ]
+  },
   "debug": false,
   "settings": {
     "reminderTime": "09:00",
     "reminderTimeStep": 15,
     "laters": "In 30 minutes\nIn 1 hour\nIn 3 hours\nTomorrow\nNext week",
-    "useSystemNotification": false,
+    "useSystemNotification": true,
     "autoCompleteTrigger": "(@",
     "primaryReminderFormat": "ReminderPluginReminderFormat",
     "enableReminderPluginReminderFormat": true,
