@@ -22,22 +22,6 @@
             }
           }
         ]
-      },
-      {
-        "id": "991b60afaa6a5d27",
-        "type": "tabs",
-        "children": [
-          {
-            "id": "0881d2d3da9b0e3b",
-            "type": "leaf",
-            "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
-            }
-          }
-        ]
       }
     ],
     "direction": "vertical"
@@ -166,13 +150,23 @@
               "icon": "lucide-list",
               "title": "Outline of Welcome"
             }
+          },
+          {
+            "id": "34e44def96438e7d",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -182,12 +176,14 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "7b763ea5f9bc4bac",
+  "active": "34e44def96438e7d",
   "lastOpenFiles": [
-    "test.md",
-    "Welcome.md"
+    "testing.md",
+    "Welcome.md",
+    "test.md"
   ]
 }

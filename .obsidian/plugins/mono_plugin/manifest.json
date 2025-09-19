@@ -1,0 +1,12 @@
+{
+    "id": "mono-plugin",
+    "name": "Mono Plugin",
+    "version": "1.0.0",
+    "minAppVersion": "1.5.0",
+    "description": "A meta-plugin that integrates Git, Note Refactor, Commander, Heatmap Calendar, Tag Wrangler, Quick Add, Dataview, Metadata Menu, and Login features into a single plugin.",
+    "author": "Suhail Akram",
+    "authorUrl": "https://suhail-akram.github.io",
+    "isDesktopOnly": false,
+    "main": "dist/main.js"
+  }
+  
