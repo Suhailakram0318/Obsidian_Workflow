@@ -4721,6 +4721,26 @@ var UserService = class {
     const role = this.settings.currentRole;
     return role === "author" || role === "chief-editor";
   }
+  canSendForReview() {
+    const role = this.settings.currentRole;
+    return role === "author" || role === "chief-editor";
+  }
+  canReviewDocuments() {
+    const role = this.settings.currentRole;
+    return role === "reviewer" || role === "chief-editor";
+  }
+  canApproveDocuments() {
+    const role = this.settings.currentRole;
+    return role === "reviewer" || role === "chief-editor";
+  }
+  canRejectDocuments() {
+    const role = this.settings.currentRole;
+    return role === "reviewer" || role === "chief-editor";
+  }
+  canPublishDocuments() {
+    const role = this.settings.currentRole;
+    return role === "publisher" || role === "chief-editor";
+  }
 };
 
 // src/services/WorkflowLogger.ts
@@ -7126,6 +7146,71 @@ ${this.generateWorkflowActionsText(state)}
 - **No further workflow actions required**`;
       default:
         return `- **Status**: ${state}`;
+    }
+  }
+  // New methods for the workflow system
+  async moveDocumentToReviewBranch(file) {
+    try {
+      console.log(`[GitBranchManager] Moving document to review branch: ${file.basename}`);
+      const docSlug = this.getDocumentSlug(file.basename);
+      const reviewBranch = this.getReviewBranch(docSlug);
+      const currentUser = "author";
+      const draftBranch = this.getDraftBranch(currentUser, docSlug);
+      const currentBranch = await this.gitManager.getCurrentBranch();
+      if (currentBranch !== draftBranch) {
+        await this.gitManager.switchBranch(draftBranch);
+      }
+      const branches = await this.gitManager.listBranches();
+      if (!branches.includes(reviewBranch)) {
+        await this.gitManager.createBranch(reviewBranch, draftBranch);
+      }
+      await this.gitManager.switchBranch(reviewBranch);
+      await this.gitManager.commit(`Move ${file.basename} to review branch`);
+      await this.gitManager.push(reviewBranch);
+      console.log(`[GitBranchManager] Document moved to review branch: ${reviewBranch}`);
+    } catch (error) {
+      console.error("[GitBranchManager] Error moving document to review branch:", error);
+      throw error;
+    }
+  }
+  async moveDocumentToMainBranch(file) {
+    try {
+      console.log(`[GitBranchManager] Moving document to main branch: ${file.basename}`);
+      const docSlug = this.getDocumentSlug(file.basename);
+      const reviewBranch = this.getReviewBranch(docSlug);
+      const currentBranch = await this.gitManager.getCurrentBranch();
+      if (currentBranch !== reviewBranch) {
+        await this.gitManager.switchBranch(reviewBranch);
+      }
+      await this.gitManager.switchBranch("main");
+      await this.gitManager.merge(reviewBranch, "main");
+      await this.gitManager.commit(`Approve and merge ${file.basename} to main branch`);
+      await this.gitManager.push("main");
+      console.log(`[GitBranchManager] Document moved to main branch`);
+    } catch (error) {
+      console.error("[GitBranchManager] Error moving document to main branch:", error);
+      throw error;
+    }
+  }
+  async moveDocumentToDraftBranch(file) {
+    try {
+      console.log(`[GitBranchManager] Moving document back to draft branch: ${file.basename}`);
+      const docSlug = this.getDocumentSlug(file.basename);
+      const currentUser = "author";
+      const draftBranch = this.getDraftBranch(currentUser, docSlug);
+      const reviewBranch = this.getReviewBranch(docSlug);
+      const currentBranch = await this.gitManager.getCurrentBranch();
+      if (currentBranch !== reviewBranch) {
+        await this.gitManager.switchBranch(reviewBranch);
+      }
+      await this.gitManager.switchBranch(draftBranch);
+      await this.gitManager.merge(reviewBranch, draftBranch);
+      await this.gitManager.commit(`Reject and move ${file.basename} back to draft branch`);
+      await this.gitManager.push(draftBranch);
+      console.log(`[GitBranchManager] Document moved back to draft branch: ${draftBranch}`);
+    } catch (error) {
+      console.error("[GitBranchManager] Error moving document to draft branch:", error);
+      throw error;
     }
   }
 };
@@ -13234,6 +13319,26 @@ var DocumentWorkflowPlugin = class extends import_obsidian19.Plugin {
       name: "Show Document Status Indicator",
       callback: () => this.showDocumentStatusIndicator()
     });
+    this.addCommand({
+      id: "send-for-review",
+      name: "Send Document for Review",
+      callback: () => this.sendCurrentDocumentForReview()
+    });
+    this.addCommand({
+      id: "approve-document",
+      name: "Approve Document",
+      callback: () => this.approveCurrentDocument()
+    });
+    this.addCommand({
+      id: "reject-document",
+      name: "Reject Document",
+      callback: () => this.rejectCurrentDocument()
+    });
+    this.addCommand({
+      id: "publish-document",
+      name: "Publish Document",
+      callback: () => this.publishCurrentDocument()
+    });
     this.updateStatusBar();
     setTimeout(() => {
       this.activateWorkflowDashboard();
@@ -13370,6 +13475,201 @@ var DocumentWorkflowPlugin = class extends import_obsidian19.Plugin {
     await this.handleDocumentStatusIndicator(null, activeFile);
     new import_obsidian19.Notice(`Status indicator added for ${activeFile.basename}`);
   }
+  // Workflow-specific methods
+  async sendCurrentDocumentForReview() {
+    var _a;
+    const activeFile = this.app.workspace.getActiveFile();
+    if (!activeFile) {
+      new import_obsidian19.Notice("No active file found. Please open a document first.");
+      return;
+    }
+    if (!this.userService.canSendForReview()) {
+      new import_obsidian19.Notice("You do not have permission to send documents for review.");
+      return;
+    }
+    try {
+      const workflow = await this.documentService.getDocumentWorkflow(activeFile);
+      if (!workflow) {
+        new import_obsidian19.Notice("No workflow metadata found. Please create a workflow document first.");
+        return;
+      }
+      if (workflow.state !== "draft") {
+        new import_obsidian19.Notice(`Document is in ${workflow.state} state. Only draft documents can be sent for review.`);
+        return;
+      }
+      workflow.state = "review";
+      workflow.assignedTo = "reviewer";
+      const action = {
+        user: this.userService.getCurrentUser() || "unknown",
+        role: this.userService.getCurrentRole() || "author",
+        action: "sent_for_review",
+        message: "Document sent for review",
+        timestamp: new Date().toISOString()
+      };
+      workflow.history.push(action);
+      await this.documentService.updateDocumentWorkflow(activeFile, workflow);
+      if (this.gitBranchManager) {
+        await this.gitBranchManager.moveDocumentToReviewBranch(activeFile);
+      }
+      new import_obsidian19.Notice(`Document "${activeFile.basename}" sent for review successfully!`);
+      (_a = this.workflowLogger) == null ? void 0 : _a.info(
+        "WORKFLOW_STATE_CHANGED" /* WORKFLOW_STATE_CHANGED */,
+        `Document sent for review: ${activeFile.basename}`,
+        {
+          file: activeFile.path,
+          newState: "review",
+          user: this.userService.getCurrentUser()
+        }
+      );
+    } catch (error) {
+      console.error("Error sending document for review:", error);
+      new import_obsidian19.Notice(`Error sending document for review: ${error.message}`);
+    }
+  }
+  async approveCurrentDocument() {
+    var _a;
+    const activeFile = this.app.workspace.getActiveFile();
+    if (!activeFile) {
+      new import_obsidian19.Notice("No active file found. Please open a document first.");
+      return;
+    }
+    if (!this.userService.canApproveDocuments()) {
+      new import_obsidian19.Notice("You do not have permission to approve documents.");
+      return;
+    }
+    try {
+      const workflow = await this.documentService.getDocumentWorkflow(activeFile);
+      if (!workflow) {
+        new import_obsidian19.Notice("No workflow metadata found. Please create a workflow document first.");
+        return;
+      }
+      if (workflow.state !== "review") {
+        new import_obsidian19.Notice(`Document is in ${workflow.state} state. Only documents in review can be approved.`);
+        return;
+      }
+      workflow.state = "approved";
+      const action = {
+        user: this.userService.getCurrentUser() || "unknown",
+        role: this.userService.getCurrentRole() || "reviewer",
+        action: "approved",
+        message: "Document approved for publication",
+        timestamp: new Date().toISOString()
+      };
+      workflow.history.push(action);
+      await this.documentService.updateDocumentWorkflow(activeFile, workflow);
+      if (this.gitBranchManager) {
+        await this.gitBranchManager.moveDocumentToMainBranch(activeFile);
+      }
+      new import_obsidian19.Notice(`Document "${activeFile.basename}" approved successfully!`);
+      (_a = this.workflowLogger) == null ? void 0 : _a.info(
+        "WORKFLOW_STATE_CHANGED" /* WORKFLOW_STATE_CHANGED */,
+        `Document approved: ${activeFile.basename}`,
+        {
+          file: activeFile.path,
+          newState: "approved",
+          user: this.userService.getCurrentUser()
+        }
+      );
+    } catch (error) {
+      console.error("Error approving document:", error);
+      new import_obsidian19.Notice(`Error approving document: ${error.message}`);
+    }
+  }
+  async rejectCurrentDocument() {
+    var _a;
+    const activeFile = this.app.workspace.getActiveFile();
+    if (!activeFile) {
+      new import_obsidian19.Notice("No active file found. Please open a document first.");
+      return;
+    }
+    if (!this.userService.canRejectDocuments()) {
+      new import_obsidian19.Notice("You do not have permission to reject documents.");
+      return;
+    }
+    try {
+      const workflow = await this.documentService.getDocumentWorkflow(activeFile);
+      if (!workflow) {
+        new import_obsidian19.Notice("No workflow metadata found. Please create a workflow document first.");
+        return;
+      }
+      if (workflow.state !== "review") {
+        new import_obsidian19.Notice(`Document is in ${workflow.state} state. Only documents in review can be rejected.`);
+        return;
+      }
+      workflow.state = "rejected";
+      const action = {
+        user: this.userService.getCurrentUser() || "unknown",
+        role: this.userService.getCurrentRole() || "reviewer",
+        action: "rejected",
+        message: "Document rejected and sent back to draft",
+        timestamp: new Date().toISOString()
+      };
+      workflow.history.push(action);
+      await this.documentService.updateDocumentWorkflow(activeFile, workflow);
+      if (this.gitBranchManager) {
+        await this.gitBranchManager.moveDocumentToDraftBranch(activeFile);
+      }
+      new import_obsidian19.Notice(`Document "${activeFile.basename}" rejected and sent back to draft!`);
+      (_a = this.workflowLogger) == null ? void 0 : _a.info(
+        "WORKFLOW_STATE_CHANGED" /* WORKFLOW_STATE_CHANGED */,
+        `Document rejected: ${activeFile.basename}`,
+        {
+          file: activeFile.path,
+          newState: "rejected",
+          user: this.userService.getCurrentUser()
+        }
+      );
+    } catch (error) {
+      console.error("Error rejecting document:", error);
+      new import_obsidian19.Notice(`Error rejecting document: ${error.message}`);
+    }
+  }
+  async publishCurrentDocument() {
+    var _a;
+    const activeFile = this.app.workspace.getActiveFile();
+    if (!activeFile) {
+      new import_obsidian19.Notice("No active file found. Please open a document first.");
+      return;
+    }
+    if (!this.userService.canPublishDocuments()) {
+      new import_obsidian19.Notice("You do not have permission to publish documents.");
+      return;
+    }
+    try {
+      const workflow = await this.documentService.getDocumentWorkflow(activeFile);
+      if (!workflow) {
+        new import_obsidian19.Notice("No workflow metadata found. Please create a workflow document first.");
+        return;
+      }
+      if (workflow.state !== "approved") {
+        new import_obsidian19.Notice(`Document is in ${workflow.state} state. Only approved documents can be published.`);
+        return;
+      }
+      workflow.state = "published";
+      const action = {
+        user: this.userService.getCurrentUser() || "unknown",
+        role: this.userService.getCurrentRole() || "publisher",
+        action: "published",
+        message: "Document published successfully",
+        timestamp: new Date().toISOString()
+      };
+      workflow.history.push(action);
+      await this.documentService.updateDocumentWorkflow(activeFile, workflow);
+      new import_obsidian19.Notice(`Document "${activeFile.basename}" published successfully!`);
+      (_a = this.workflowLogger) == null ? void 0 : _a.info(
+        "WORKFLOW_STATE_CHANGED" /* WORKFLOW_STATE_CHANGED */,
+        `Document published: ${activeFile.basename}`,
+        {
+          file: activeFile.path,
+          newState: "published",
+          user: this.userService.getCurrentUser()
+        }
+      );
+    } catch (error) {
+      console.error("Error publishing document:", error);
+      new import_obsidian19.Notice(`Error publishing document: ${error.message}`);
+    }
+  }
   async activateWorkflowPanel() {
     const existing = this.app.workspace.getLeavesOfType(WORKFLOW_VIEW_TYPE);
     if (existing.length > 0) {
@@ -13387,7 +13687,7 @@ var DocumentWorkflowPlugin = class extends import_obsidian19.Plugin {
       this.app.workspace.revealLeaf(existing[0]);
       return;
     }
-    const rightLeaf = this.app.workspace.getLeaf("right", false);
+    const rightLeaf = this.app.workspace.getLeaf("right");
     await rightLeaf.setViewState({
       type: WORKFLOW_DASHBOARD_VIEW_TYPE,
       active: true
@@ -14454,7 +14754,7 @@ Smart Branch Status:
       });
       const logFileName = `Git-Logs-${Date.now()}.md`;
       await this.app.vault.create(logFileName, logContent);
-      const logFile = this.app.vault.getFileByPath(logFileName);
+      const logFile = this.app.vault.getAbstractFileByPath(logFileName);
       if (logFile) {
         await this.app.workspace.openLinkText(logFileName, "", true);
         new import_obsidian19.Notice(`Git logs exported to ${logFileName}`);

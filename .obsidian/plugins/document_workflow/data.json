@@ -22,6 +22,6 @@
     "enableWorkflowValidation": true,
     "enableWebhooks": true
   },
-  "currentUser": "akram",
-  "currentRole": "publisher"
+  "currentUser": "ashi",
+  "currentRole": "author"
 }

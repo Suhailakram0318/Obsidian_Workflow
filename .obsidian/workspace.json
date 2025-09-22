@@ -1,20 +1,24 @@
 {
   "main": {
-    "id": "d3e6ed7ac55815da",
+    "id": "c4860dea4f20b173",
     "type": "split",
     "children": [
       {
-        "id": "06e5db5b6f4bcdf5",
+        "id": "08bd62bcada6de2b",
         "type": "tabs",
         "children": [
           {
-            "id": "771066ddd7027ae8",
+            "id": "7b763ea5f9bc4bac",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Welcome.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Welcome"
             }
           }
         ]
@@ -23,15 +27,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "10c339df9450760c",
+    "id": "b7f95ebaadd60061",
     "type": "split",
     "children": [
       {
-        "id": "dd487f16e2b94689",
+        "id": "c12bef705afe7ec3",
         "type": "tabs",
         "children": [
           {
-            "id": "2a29a52eace5b2ef",
+            "id": "a135ae8c5f819a8d",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -44,22 +48,12 @@
             }
           },
           {
-            "id": "7a02d8c5bbb38843",
-            "type": "leaf",
-            "state": {
-              "type": "bookmarks",
-              "state": {},
-              "icon": "lucide-bookmark",
-              "title": "Bookmarks"
-            }
-          },
-          {
-            "id": "9b7416379d8f4532",
+            "id": "20624902b46a9fea",
             "type": "leaf",
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#obsidian",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -69,28 +63,38 @@
               "icon": "lucide-search",
               "title": "Search"
             }
+          },
+          {
+            "id": "8e9e77b3835c50d3",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 249.5
+    "width": 300
   },
   "right": {
-    "id": "b2188b0cbd83c5bc",
+    "id": "8935d6d2445f7ced",
     "type": "split",
     "children": [
       {
-        "id": "a147ae069ff8803a",
+        "id": "6b919ddada7c70ed",
         "type": "tabs",
         "children": [
           {
-            "id": "edc0d938f049dcd5",
+            "id": "ce4146f53cc4fcb0",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "test.md",
+                "file": "Welcome.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,25 +104,25 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for test"
+              "title": "Backlinks for Welcome"
             }
           },
           {
-            "id": "c7a08643e0bf308e",
+            "id": "fea6c403375d703d",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "testing.md",
+                "file": "Welcome.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from testing"
+              "title": "Outgoing links from Welcome"
             }
           },
           {
-            "id": "3541a5c34e85b480",
+            "id": "677c134e7cef13f1",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -133,22 +137,22 @@
             }
           },
           {
-            "id": "0523a8805b1916be",
+            "id": "b04f4504c4ced335",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "Workflow-Document-1757917801629.md",
+                "file": "Welcome.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Workflow-Document-1757917801629"
+              "title": "Outline of Welcome"
             }
           },
           {
-            "id": "bb56599b33f75f45",
+            "id": "34e44def96438e7d",
             "type": "leaf",
             "state": {
               "type": "git-view",
@@ -156,26 +160,18 @@
               "icon": "git-pull-request",
               "title": "Source Control"
             }
-          },
-          {
-            "id": "203e872a41dca6ca",
-            "type": "leaf",
-            "state": {
-              "type": "workflow-dashboard",
-              "state": {},
-              "icon": "bar-chart-3",
-              "title": "Enterprise DMS Plugin"
-            }
           }
         ],
-        "currentTab": 5
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 394.5
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
+      "document-workflow:Workflow Panel": false,
+      "document-workflow:Workflow Dashboard": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -183,48 +179,22 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
-      "document-workflow:Workflow Panel": false,
-      "document-workflow:Workflow Dashboard": false,
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "203e872a41dca6ca",
+  "active": "7b763ea5f9bc4bac",
   "lastOpenFiles": [
-    "Untitled.base",
-    "Untitled.md",
-    "Untitled.canvas",
-    "obsidian.md",
-    "Workflow-Document-1757671376257.md",
-    "Workflow-Document-1758090940820.md",
-    "System/Logs/workflow-2025-09-22.log",
-    "Untitled 3.md",
-    "suhail.md",
-    "Workflow-Document-1758093062757fsgfdsggfdsgdsgdsgfsvfsvfsvsvfsvsvsvfsvfsvfsv.md",
-    "Workflow-Document-1758096790957.md",
-    "Research/Research-1758279182526.md",
-    "Workflow-Document-1758091633722.md",
-    "Documents/Document-1758282214623.md",
-    "Manuals/Manual-1758282186650.md",
-    "Documents",
-    "Manuals",
-    "Meeting Notes/Meeting-notes-1758279118836.md",
-    "Research",
-    "System/Logs/workflow-2025-09-19.log",
-    "System/Logs/workflow-transitions.json",
-    "System/Logs/git-operations.json",
-    "System/Logs",
-    "Meeting Notes",
+    "Welcome.md",
+    "time.md",
     "testing.md",
     "test.md",
-    "Workflow-Document-1758092196883.md",
-    "Workflow-Document-1758091292312.md",
-    "Workflow-Document-1758090811076.md",
-    "Workflow-Document-1758090687787.md",
-    "Workflow-Document-1758055732273.md",
-    "Workflow-Document-1758055096608.md",
-    "Workflow-Document-1758054548876.md",
-    "Workflow-Document-1758018391639.md",
-    "Workflow-Document-1758015396504.md",
-    "Workflow-Document-1757913566997.md"
+    "suhail.md",
+    "procedure.md",
+    "policy.md",
+    "meeting.md",
+    "manual.md",
+    "akram.md",
+    "456.md",
+    "123.md"
   ]
 }
