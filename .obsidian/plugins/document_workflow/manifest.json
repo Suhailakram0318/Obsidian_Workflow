@@ -1,0 +1,11 @@
+{
+    "id": "document-workflow",
+    "name": "Document Workflow",
+    "version": "1.0.0",
+    "minAppVersion": "0.15.0",
+    "description": "A document workflow system with role-based approval process",
+    "author": "Your Name",
+    "authorUrl": "",
+    "fundingUrl": "",
+    "isDesktopOnly": false
+  }

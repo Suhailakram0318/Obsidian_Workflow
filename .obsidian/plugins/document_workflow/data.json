@@ -1,0 +1,27 @@
+{
+  "users": {
+    "john.author": "author",
+    "mary.reviewer": "reviewer",
+    "bob.publisher": "publisher",
+    "alice.chief": "chief-editor",
+    "ashi": "author",
+    "suhail": "reviewer",
+    "akram": "publisher",
+    "sso-user": "author"
+  },
+  "webhookUrl": "",
+  "enableGitBranching": true,
+  "enterprise": {
+    "enabled": false,
+    "gitlab": {
+      "baseUrl": "https://gitlab.com",
+      "accessToken": "",
+      "projectId": "your-group/your-project"
+    },
+    "webhooks": [],
+    "enableWorkflowValidation": true,
+    "enableWebhooks": true
+  },
+  "currentUser": "akram",
+  "currentRole": "publisher"
+}

@@ -1,0 +1,13 @@
+/* Auto-hide sidebars */
+.workspace-split.mod-left-split,
+.workspace-split.mod-right-split {
+  transition: transform 0.3s ease;
+}
+
+.workspace-split.mod-left-split:not(:hover) {
+  transform: translateX(-100%);
+}
+
+.workspace-split.mod-right-split:not(:hover) {
+  transform: translateX(100%);
+}
