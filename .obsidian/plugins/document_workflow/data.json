@@ -7,7 +7,8 @@
     "ashi": "author",
     "suhail": "reviewer",
     "akram": "publisher",
-    "sso-user": "author"
+    "sso-user": "author",
+    "shanu": "author"
   },
   "webhookUrl": "",
   "enableGitBranching": true,
@@ -22,6 +23,6 @@
     "enableWorkflowValidation": true,
     "enableWebhooks": true
   },
-  "currentUser": "ashi",
+  "currentUser": "shanu",
   "currentRole": "author"
 }
