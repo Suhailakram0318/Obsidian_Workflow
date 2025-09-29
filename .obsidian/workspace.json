@@ -4,20 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "fcaaf07155f6f53b",
+        "id": "d949fc6d6539f658",
         "type": "tabs",
         "children": [
           {
-            "id": "af85fc97c5a8d98f",
+            "id": "7e391e8c4c2a229f",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Workflow-Document-1759124335388.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Workflow-Document-1759124335388"
+            }
+          },
+          {
+            "id": "c8697d3bfb64fbb2",
+            "type": "leaf",
+            "state": {
+              "type": "workflow-panel",
+              "state": {},
+              "icon": "workflow",
+              "title": "Workflow Panel"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -178,7 +193,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "af85fc97c5a8d98f",
+  "active": "c8697d3bfb64fbb2",
   "lastOpenFiles": [
     "time.md",
     "testing.md",
@@ -195,11 +210,11 @@
     "Policies",
     "456.md",
     "123.md",
+    "Welcome.md",
     "System/Logs/workflow-2025-09-22.log",
     "System/Logs/git-operations.json",
     "System/Logs/workflow-2025-09-29.log",
     "System/Logs",
-    "System",
-    "Welcome.md"
+    "System"
   ]
 }
