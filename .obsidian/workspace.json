@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "akram.md",
+                "file": "Workflow-Document-1759124335388.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "akram"
+              "title": "Workflow-Document-1759124335388"
             }
           }
         ]
@@ -184,9 +184,6 @@
   },
   "active": "3771cd59cfb037d9",
   "lastOpenFiles": [
-    "akram.md",
-    "System/Logs/workflow-2025-09-29.log",
-    "Policies/Policy-1758568893575.md",
     "time.md",
     "testing.md",
     "test.md",
@@ -195,10 +192,14 @@
     "policy.md",
     "meeting.md",
     "manual.md",
+    "akram.md",
+    "Workflow-Document-1759124335388.md",
     "System/Logs/workflow-transitions.json",
+    "Policies/Policy-1758568893575.md",
     "Policies",
     "456.md",
     "123.md",
+    "System/Logs/workflow-2025-09-29.log",
     "Welcome.md"
   ]
 }
