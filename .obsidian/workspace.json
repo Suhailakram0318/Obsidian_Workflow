@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "2e367b8de44cb3c1",
+        "id": "c55db15286601a62",
         "type": "tabs",
         "children": [
           {
-            "id": "3771cd59cfb037d9",
+            "id": "07c2f9becc3d0a44",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -182,8 +182,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "3771cd59cfb037d9",
+  "active": "07c2f9becc3d0a44",
   "lastOpenFiles": [
+    "Workflow-Document-1759124335388.md",
     "time.md",
     "testing.md",
     "test.md",
@@ -193,7 +194,6 @@
     "meeting.md",
     "manual.md",
     "akram.md",
-    "Workflow-Document-1759124335388.md",
     "System/Logs/workflow-transitions.json",
     "Policies/Policy-1758568893575.md",
     "Policies",
